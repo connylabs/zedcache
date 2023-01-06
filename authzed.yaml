@@ -1,0 +1,21 @@
+schema: |
+  definition post {
+    relation owner: user
+    relation user: user
+
+    permission read = owner + user
+    permission write = owner
+  }
+
+  definition user {}
+
+relationships: |
+  post:1#user@user:1
+  post:1#owner@user:2
+
+assertions:
+  assertTrue:
+    - post:1#read@user:1
+    - post:1#write@user:2
+  assertFalse:
+    - post:1#write@user:1
